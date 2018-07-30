@@ -1,31 +1,27 @@
-var maximizedSidePadding = '2rem';
-var originalStyles;
-var maximizedStyles = {
+let originalStyles;
+const maximizedStyles = {
   width: '100%',
-  paddings: '2rem' 
+  paddingLeft: '2rem', 
+  paddingRight: '2rem',
 };
-var containerElements = document.querySelectorAll('.application-main .container');
 
-function preserveOriginalStyles(container) {
+const preserveOriginalStyles = ({ style }) => {
+  const { width, paddingLeft, paddingRight } = style;
+  
   return {
-    width: container.style.width,
-    paddings: container.style.paddingLeft
+    width,
+    paddingLeft,
+    paddingRight,
   };
-}
+};
 
-function toggleMaximizeContainers (toggle) {
-  containerElements.forEach(function (container) {
-    if (!originalStyles) {
-      originalStyles = preserveOriginalStyles(container);
-    }
-    setContainerStyles(container, toggle ? maximizedStyles : originalStyles)
-  });
-}
-
-function setContainerStyles (container, styles) {
-  container.style.width = styles.width;
-  container.style.paddingLeft =
-    container.style.paddingRight = styles.paddings;
+const toggleMaximizeContainers = (toggle) => {
+  document.querySelectorAll('.application-main .container')
+    .forEach((container) => {
+      originalStyles = originalStyles || preserveOriginalStyles(container);
+      Object.assign(container.style, toggle ? maximizedStyles : originalStyles);
+     
+    });
 }
 
 chrome.runtime.onMessage.addListener(function(request) {

@@ -1,16 +1,16 @@
-var enabled = false;
-var enableText = 'Maximize width!';
-var disableText = 'Put it back...';
+let enabled = false;
+const enableText = 'Maximize width!';
+const disableText = 'Put it back...';
 
-document.addEventListener('DOMContentLoaded', function() {
-  var maxWidthBtn = document.querySelector('.github-width-popup__button');
+document.addEventListener('DOMContentLoaded', () => {
+  const maxWidthBtn = document.querySelector('.github-width-popup__button');
 
-  maxWidthBtn.addEventListener('click', function() {
+  maxWidthBtn.addEventListener('click', () => {
     chrome.tabs.query({
       active: true,
       currentWindow: true
-    }, function(tabs) {
-      var activeTab = tabs[0];
+    }, (tabs) => {
+      const activeTab = tabs[0];
   
       chrome.tabs.sendMessage(activeTab.id, {
         'enable': !enabled
